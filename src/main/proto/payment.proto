@@ -7,9 +7,27 @@ option java_outer_classname = "PaymentProto";
 option java_package = "dev.crashteam.payment";
 
 message PaymentCreateRequest {
+  Amount amount = 1;
+  Confirmation confirmation = 2;
+  string description = 3;
+  bool savePaymentMethod = 4;
+  string paymentMethodId = 5;
+}
+
+message PaymentCancelRequest {
+  Amount amount = 1;
+  string paymentId = 2;
+}
+
+message PaymentCancelResponse {
   string id = 1;
-  Amount amount = 2;
-  Confirmation confirmation = 3;
+  string status = 2;
+  Amount amount = 3;
+  string paymentId = 4;
+}
+
+message CreatePaymentEvent {
+  string paymentId = 1;
 }
 
 message PaymentResponse {
@@ -19,6 +37,8 @@ message PaymentResponse {
   Amount amount = 4;
   Confirmation confirmation = 5;
   string createdAt = 6;
+  string description = 7;
+  bool refundable = 8;
 }
 
 message Amount {
@@ -27,6 +47,14 @@ message Amount {
 }
 
 message Confirmation {
-  string returnUrl = 1;
+  string type = 1;
+  string returnUrl = 2;
+  string confirmationUrl = 3;
+
+}
+
+service PaymentService {
+  rpc createPayment(PaymentCreateRequest) returns (PaymentResponse);
+  rpc cancelPayment(PaymentCancelRequest) returns (PaymentCancelResponse);
 }
 
