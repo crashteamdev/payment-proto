@@ -6,11 +6,10 @@ option java_multiple_files = true;
 option java_outer_classname = "PaymentProto";
 option java_package = "dev.crashteam.payment";
 
-message PaymentRequest {
+message PaymentCreateRequest {
   string id = 1;
-  bool capture = 2;
-  Amount amount = 3;
-  Confirmation confirmation = 4;
+  Amount amount = 2;
+  Confirmation confirmation = 3;
 }
 
 message PaymentResponse {
@@ -28,7 +27,6 @@ message Amount {
 }
 
 message Confirmation {
-  string type = 1;
-  string returnUrl = 2;
+  string returnUrl = 1;
 }
 
