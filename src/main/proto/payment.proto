@@ -10,24 +10,42 @@ message PaymentCreateRequest {
   Amount amount = 1;
   Confirmation confirmation = 2;
   string description = 3;
-  bool savePaymentMethod = 4;
-  string paymentMethodId = 5;
+}
+
+message RecurrentPaymentCreateRequest {
+  Amount amount = 1;
+  Confirmation confirmation = 2;
+  string description = 3;
+  bool save_payment_method = 4;
+  string payment_method_id = 5;
 }
 
 message PaymentCancelRequest {
   Amount amount = 1;
-  string paymentId = 2;
+  string payment_id = 2;
 }
 
 message PaymentCancelResponse {
   string id = 1;
   string status = 2;
   Amount amount = 3;
-  string paymentId = 4;
+  string payment_id = 4;
 }
 
-message CreatePaymentEvent {
-  string paymentId = 1;
+message PaymentCreateEvent {
+  string payment_id = 1;
+}
+
+message PaymentPendingEvent {
+  string payment_id = 1;
+}
+
+message PaymentCancelEvent {
+  string payment_id = 1;
+}
+
+message PaymentWaitingForCaptureEvent {
+  string payment_id = 1;
 }
 
 message PaymentResponse {
@@ -35,10 +53,20 @@ message PaymentResponse {
   string status = 2;
   string paid = 3;
   Amount amount = 4;
-  Confirmation confirmation = 5;
-  string createdAt = 6;
+  string created_at = 6;
   string description = 7;
   bool refundable = 8;
+}
+
+message UserPayment {
+  string id = 1;
+  string status = 2;
+  Amount amount = 3;
+  string created_at = 4;
+}
+
+message UserListResponse {
+  repeated UserPayment user_payment = 1;
 }
 
 message Amount {
@@ -48,13 +76,17 @@ message Amount {
 
 message Confirmation {
   string type = 1;
-  string returnUrl = 2;
-  string confirmationUrl = 3;
+  string return_url = 2;
+  string confirmation_url = 3;
+}
 
+message UserQuery {
+  string id = 1;
 }
 
 service PaymentService {
   rpc createPayment(PaymentCreateRequest) returns (PaymentResponse);
   rpc cancelPayment(PaymentCancelRequest) returns (PaymentCancelResponse);
+  rpc getUserPayments(UserQuery) returns (UserListResponse);
 }
 
