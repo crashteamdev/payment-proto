@@ -10,6 +10,7 @@ message PaymentCreateRequest {
   Amount amount = 1;
   Confirmation confirmation = 2;
   string description = 3;
+  map<string, string> meta_data = 4;
 }
 
 message RecurrentPaymentCreateRequest {
@@ -18,6 +19,7 @@ message RecurrentPaymentCreateRequest {
   string description = 3;
   bool save_payment_method = 4;
   string payment_method_id = 5;
+  map<string, string> meta_data = 6;
 }
 
 message PaymentCancelRequest {
@@ -30,22 +32,25 @@ message PaymentCancelResponse {
   string status = 2;
   Amount amount = 3;
   string payment_id = 4;
+  map<string, string> meta_data = 5;
 }
 
 message PaymentCreateEvent {
   string payment_id = 1;
+  string description = 2;
+  string user_id = 3;
 }
 
 message PaymentPendingEvent {
   string payment_id = 1;
+  string description = 2;
+  string user_id = 3;
 }
 
 message PaymentCancelEvent {
   string payment_id = 1;
-}
-
-message PaymentWaitingForCaptureEvent {
-  string payment_id = 1;
+  string description = 2;
+  string user_id = 3;
 }
 
 message PaymentResponse {
@@ -56,6 +61,7 @@ message PaymentResponse {
   string created_at = 6;
   string description = 7;
   bool refundable = 8;
+  map<string, string> meta_data = 9;
 }
 
 message UserPayment {
@@ -82,6 +88,10 @@ message Confirmation {
 
 message UserQuery {
   string id = 1;
+  string date = 2;
+  string user_id = 3;
+  int64 limit = 4;
+  int64 offset = 5;
 }
 
 service PaymentService {
