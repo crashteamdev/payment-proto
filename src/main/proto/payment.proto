@@ -1,0 +1,113 @@
+syntax = "proto3";
+
+package payment;
+
+option java_multiple_files = true;
+option java_outer_classname = "PaymentProto";
+option java_package = "dev.crashteam.payment";
+
+message PaymentCreateRequest {
+  Amount amount = 1;
+  Confirmation confirmation = 2;
+  string description = 3;
+  map<string, string> meta_data = 4;
+}
+
+message RecurrentPaymentCreateRequest {
+  Amount amount = 1;
+  Confirmation confirmation = 2;
+  string description = 3;
+  bool save_payment_method = 4;
+  string payment_method_id = 5;
+  map<string, string> meta_data = 6;
+}
+
+message PaymentCancelRequest {
+  Amount amount = 1;
+  string payment_id = 2;
+}
+
+message PaymentCancelResponse {
+  string id = 1;
+  string status = 2;
+  Amount amount = 3;
+  string payment_id = 4;
+  map<string, string> meta_data = 5;
+}
+
+message PaymentCreateEvent {
+  string payment_id = 1;
+  string description = 2;
+  string user_id = 3;
+}
+
+message PaymentPendingEvent {
+  string payment_id = 1;
+  string description = 2;
+  string user_id = 3;
+}
+
+message PaymentCancelEvent {
+  string payment_id = 1;
+  string description = 2;
+  string user_id = 3;
+}
+
+message PaymentResponse {
+  string id = 1;
+  string status = 2;
+  string paid = 3;
+  Amount amount = 4;
+  string created_at = 6;
+  string description = 7;
+  bool refundable = 8;
+  map<string, string> meta_data = 9;
+}
+
+message UserPayment {
+  string id = 1;
+  string status = 2;
+  Amount amount = 3;
+  string created_at = 4;
+}
+
+message UserPaymentsResponse {
+  repeated UserPayment user_payment = 1;
+  LimitOffsetPaginationResult pagination = 2;
+}
+
+message Amount {
+  string value = 1;
+  string currency = 2;
+}
+
+message Confirmation {
+  string type = 1;
+  string return_url = 2;
+  string confirmation_url = 3;
+}
+
+message UserQuery {
+  string id = 1;
+  string date = 2;
+  string user_id = 3;
+  LimitOffsetPagination pagination = 4;
+}
+
+message LimitOffsetPagination {
+  int64 limit = 1;
+  int64 offset = 2;
+}
+
+message LimitOffsetPaginationResult {
+  int64 limit = 1;
+  int64 offset = 2;
+  int64 totalOffset = 3;
+}
+
+service PaymentService {
+  rpc createPayment(PaymentCreateRequest) returns (PaymentResponse);
+  rpc cancelPayment(PaymentCancelRequest) returns (PaymentCancelResponse);
+  rpc getUserPayments(UserQuery) returns (UserPaymentsResponse);
+}
+
