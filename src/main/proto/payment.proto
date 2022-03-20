@@ -73,6 +73,7 @@ message UserPayment {
 
 message UserPaymentsResponse {
   repeated UserPayment user_payment = 1;
+  LimitOffsetPaginationResult pagination = 2;
 }
 
 message Amount {
@@ -90,13 +91,23 @@ message UserQuery {
   string id = 1;
   string date = 2;
   string user_id = 3;
-  int64 limit = 4;
-  int64 offset = 5;
+  LimitOffsetPagination pagination = 4;
+}
+
+message LimitOffsetPagination {
+  int64 limit = 1;
+  int64 offset = 2;
+}
+
+message LimitOffsetPaginationResult {
+  int64 limit = 1;
+  int64 offset = 2;
+  int64 totalOffset = 3;
 }
 
 service PaymentService {
   rpc createPayment(PaymentCreateRequest) returns (PaymentResponse);
   rpc cancelPayment(PaymentCancelRequest) returns (PaymentCancelResponse);
-  rpc getUserPayments(UserQuery) returns (UserListResponse);
+  rpc getUserPayments(UserQuery) returns (UserPaymentsResponse);
 }
 
