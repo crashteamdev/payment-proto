@@ -71,7 +71,7 @@ message UserPayment {
   string created_at = 4;
 }
 
-message UserListResponse {
+message UserPaymentsResponse {
   repeated UserPayment user_payment = 1;
 }
 
