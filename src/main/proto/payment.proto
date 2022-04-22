@@ -53,6 +53,14 @@ message PaymentCancelEvent {
   string user_id = 3;
 }
 
+message PaymentEvent {
+  oneof event {
+      PaymentCreateEvent created = 1;
+      PaymentPendingEvent pending = 2;
+      PaymentCancelEvent cancel = 3;
+  }
+}
+
 message PaymentResponse {
   string id = 1;
   string status = 2;
