@@ -25,6 +25,7 @@ message RecurrentPaymentCreateRequest {
 message PaymentCancelRequest {
   Amount amount = 1;
   string payment_id = 2;
+  map<string, string> meta_data = 3;
 }
 
 message PaymentCancelResponse {
@@ -66,17 +67,19 @@ message PaymentResponse {
   string status = 2;
   string paid = 3;
   Amount amount = 4;
-  string created_at = 6;
-  string description = 7;
-  bool refundable = 8;
-  map<string, string> meta_data = 9;
+  string created_at = 5;
+  string description = 6;
+  bool refundable = 7;
+  map<string, string> meta_data = 8;
 }
 
 message UserPayment {
-  string id = 1;
-  string status = 2;
-  Amount amount = 3;
-  string created_at = 4;
+  string payment_id = 1;
+  string user_id = 2;
+  string status = 3;
+  Amount amount = 4;
+  string created_at = 5;
+  string updated_at = 6;
 }
 
 message UserPaymentsResponse {
@@ -89,17 +92,16 @@ message Amount {
   string currency = 2;
 }
 
-message Confirmation {
+message  Confirmation {
   string type = 1;
   string return_url = 2;
   string confirmation_url = 3;
 }
 
 message UserQuery {
-  string id = 1;
+  string user_id = 1;
   string date = 2;
-  string user_id = 3;
-  LimitOffsetPagination pagination = 4;
+  LimitOffsetPagination pagination = 3;
 }
 
 message LimitOffsetPagination {
@@ -115,6 +117,7 @@ message LimitOffsetPaginationResult {
 
 service PaymentService {
   rpc createPayment(PaymentCreateRequest) returns (PaymentResponse);
+  rpc createRecurrentPayment(RecurrentPaymentCreateRequest) returns (PaymentResponse);
   rpc cancelPayment(PaymentCancelRequest) returns (PaymentCancelResponse);
   rpc getUserPayments(UserQuery) returns (UserPaymentsResponse);
 }
