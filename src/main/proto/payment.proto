@@ -56,9 +56,9 @@ message PaymentCancelEvent {
 
 message PaymentEvent {
   oneof event {
-      PaymentCreateEvent created = 1;
-      PaymentPendingEvent pending = 2;
-      PaymentCancelEvent cancel = 3;
+    PaymentCreateEvent created = 1;
+    PaymentPendingEvent pending = 2;
+    PaymentCancelEvent cancel = 3;
   }
 }
 
@@ -92,7 +92,7 @@ message Amount {
   string currency = 2;
 }
 
-message  Confirmation {
+message Confirmation {
   string type = 1;
   string return_url = 2;
   string confirmation_url = 3;
