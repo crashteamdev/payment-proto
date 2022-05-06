@@ -22,6 +22,20 @@ message RecurrentPaymentCreateRequest {
   map<string, string> meta_data = 6;
 }
 
+message PaymentRefundRequest {
+  string payment_id = 1;
+  Amount amount = 2;
+}
+
+message PaymentRefundResponse {
+  string id = 1;
+  string payment_id = 2;
+  string status = 3;
+  string created_at = 4;
+  Amount amount = 5;
+  CancellationDetails cancellation_details = 6;
+}
+
 message PaymentCancelRequest {
   Amount amount = 1;
   string payment_id = 2;
@@ -37,6 +51,12 @@ message PaymentCancelResponse {
 }
 
 message PaymentCreateEvent {
+  string payment_id = 1;
+  string description = 2;
+  string user_id = 3;
+}
+
+message PaymentRefundEvent {
   string payment_id = 1;
   string description = 2;
   string user_id = 3;
@@ -69,8 +89,7 @@ message PaymentResponse {
   Amount amount = 4;
   string created_at = 5;
   string description = 6;
-  bool refundable = 7;
-  map<string, string> meta_data = 8;
+  map<string, string> meta_data = 7;
 }
 
 message UserPayment {
@@ -90,6 +109,11 @@ message UserPaymentsResponse {
 message Amount {
   string value = 1;
   string currency = 2;
+}
+
+message CancellationDetails {
+  string party = 1;
+  string reason = 2;
 }
 
 message Confirmation {
