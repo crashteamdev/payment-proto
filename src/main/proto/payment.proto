@@ -33,7 +33,7 @@ message PaymentRefundResponse {
   Status status = 3;
   string created_at = 4;
   Amount amount = 5;
-  CancellationDetails cancellation_details = 6;
+  string details = 6;
 }
 
 message PaymentCancelRequest {
@@ -109,11 +109,6 @@ message UserPaymentsResponse {
 message Amount {
   string value = 1;
   string currency = 2;
-}
-
-message CancellationDetails {
-  string party = 1;
-  string reason = 2;
 }
 
 message Confirmation {
