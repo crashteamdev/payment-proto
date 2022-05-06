@@ -28,9 +28,9 @@ message PaymentRefundRequest {
 }
 
 message PaymentRefundResponse {
-  string id = 1;
+  string refund_id = 1;
   string payment_id = 2;
-  string status = 3;
+  Status status = 3;
   string created_at = 4;
   Amount amount = 5;
   CancellationDetails cancellation_details = 6;
@@ -44,7 +44,7 @@ message PaymentCancelRequest {
 
 message PaymentCancelResponse {
   string id = 1;
-  string status = 2;
+  Status status = 2;
   Amount amount = 3;
   string payment_id = 4;
   map<string, string> meta_data = 5;
@@ -84,7 +84,7 @@ message PaymentEvent {
 
 message PaymentResponse {
   string id = 1;
-  string status = 2;
+  Status status = 2;
   string paid = 3;
   Amount amount = 4;
   string created_at = 5;
@@ -95,7 +95,7 @@ message PaymentResponse {
 message UserPayment {
   string payment_id = 1;
   string user_id = 2;
-  string status = 3;
+  Status status = 3;
   Amount amount = 4;
   string created_at = 5;
   string updated_at = 6;
@@ -139,10 +139,17 @@ message LimitOffsetPaginationResult {
   int64 totalOffset = 3;
 }
 
+enum Status {
+  SUCCESS = 0;
+  CANCELED = 1;
+  PENDING = 2;
+}
+
 service PaymentService {
   rpc createPayment(PaymentCreateRequest) returns (PaymentResponse);
   rpc createRecurrentPayment(RecurrentPaymentCreateRequest) returns (PaymentResponse);
   rpc cancelPayment(PaymentCancelRequest) returns (PaymentCancelResponse);
   rpc getUserPayments(UserQuery) returns (UserPaymentsResponse);
+  rpc refundPaymentRequest(PaymentRefundRequest) returns (PaymentRefundResponse);
 }
 
