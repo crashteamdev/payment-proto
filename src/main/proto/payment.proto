@@ -35,7 +35,7 @@ message PaymentRefundResponse {
   string created_at = 4;
   Amount amount = 5;
   string details = 6;
-  map<string, string> metadata = 3;
+  map<string, string> metadata = 7;
 }
 
 message PaymentCreateEvent {
