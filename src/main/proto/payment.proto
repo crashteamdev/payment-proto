@@ -42,12 +42,17 @@ message PaymentRefundResponse {
 
 message PaymentCreated {
   string payment_id = 1;
-  string description = 2;
+  string user_id = 2;
+  string description = 3;
+  Amount amount = 4;
+  google.protobuf.Timestamp created_at = 5;
 }
 
 message PaymentStatusChange {
   string payment_id = 1;
-  PaymentStatus status = 2;
+  string user_id = 2;
+  PaymentStatus status = 3;
+  google.protobuf.Timestamp updated_at = 4;
 }
 
 message PaymentChange {
