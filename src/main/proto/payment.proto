@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package payment;
 
+import "google/protobuf/timestamp.proto";
+
 option java_multiple_files = true;
 option java_outer_classname = "PaymentProto";
 option java_package = "dev.crashteam.payment";
@@ -38,30 +40,38 @@ message PaymentRefundResponse {
   map<string, string> metadata = 7;
 }
 
-message PaymentCreateEvent {
+message PaymentCreated {
   string payment_id = 1;
   string description = 2;
-  string user_id = 3;
 }
 
-message PaymentRefundEvent {
+message PaymentStatusChange {
   string payment_id = 1;
-  string description = 2;
-  string user_id = 3;
+  PaymentStatus status = 2;
 }
 
-message PaymentPendingEvent {
-  string payment_id = 1;
-  string description = 2;
-  string user_id = 3;
+message PaymentChange {
+  oneof change {
+    PaymentCreated payment_created = 1;
+    PaymentStatusChange payment_status_changed = 2;
+  }
 }
 
 message PaymentEvent {
-  oneof event {
-    PaymentCreateEvent created = 1;
-    PaymentPendingEvent pending = 2;
-    PaymentRefundRequest refund = 3;
+  google.protobuf.Timestamp created_at = 10;
+  message EventSource {
+    oneof source {
+      string user_id = 1;
+      string payment_id = 2;
+    }
   }
+  EventSource event_source = 11;
+  message EventPayload {
+    oneof payload {
+        PaymentChange payment_change = 1;
+    }
+  }
+  EventPayload payload = 12;
 }
 
 message PaymentResponse {
@@ -126,6 +136,6 @@ service PaymentService {
   rpc createPayment(PaymentCreateRequest) returns (PaymentResponse);
   rpc createRecurrentPayment(RecurrentPaymentCreateRequest) returns (PaymentResponse);
   rpc getUserPayments(UserQuery) returns (UserPaymentsResponse);
-  rpc refundPaymentRequest(PaymentRefundRequest) returns (PaymentRefundResponse);
+  rpc refundPayment(PaymentRefundRequest) returns (PaymentRefundResponse);
 }
 
