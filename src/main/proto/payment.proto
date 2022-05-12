@@ -74,7 +74,7 @@ message PaymentEvent {
   EventSource event_source = 11;
   message EventPayload {
     oneof payload {
-        PaymentChange payment_change = 1;
+      PaymentChange payment_change = 1;
     }
   }
   EventPayload payload = 12;
@@ -105,7 +105,7 @@ message UserPaymentsResponse {
 }
 
 message Amount {
-  string value = 1;
+  int64 value = 1;
   string currency = 2;
 }
 
