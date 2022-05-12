@@ -51,15 +51,21 @@ message PaymentCreated {
 
 message PaymentStatusChange {
   string payment_id = 1;
-  string user_id = 2;
-  PaymentStatus status = 3;
-  google.protobuf.Timestamp updated_at = 4;
+  PaymentStatus status = 2;
+  google.protobuf.Timestamp updated_at = 3;
+}
+
+message PaymentRefund {
+  string payment_id = 1;
+  Amount refund_amount = 2;
+  string description = 3;
 }
 
 message PaymentChange {
   oneof change {
     PaymentCreated payment_created = 1;
     PaymentStatusChange payment_status_changed = 2;
+    PaymentRefund payment_refund = 3;
   }
 }
 
