@@ -73,8 +73,7 @@ message PaymentEvent {
   google.protobuf.Timestamp created_at = 10;
   message EventSource {
     oneof source {
-      string user_id = 1;
-      string payment_id = 2;
+      string payment_id = 1;
     }
   }
   EventSource event_source = 11;
@@ -139,9 +138,9 @@ message LimitOffsetPaginationResult {
 }
 
 enum PaymentStatus {
-  SUCCESS = 0;
-  CANCELED = 1;
-  PENDING = 2;
+  PENDING = 0;
+  SUCCESS = 1;
+  CANCELED = 2;
 }
 
 service PaymentService {
