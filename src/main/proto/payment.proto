@@ -12,6 +12,7 @@ message PaymentCreateRequest {
   Amount amount = 1;
   Confirmation confirmation = 2;
   string description = 3;
+  string user_id = 5;
   map<string, string> metadata = 4;
 }
 
@@ -21,12 +22,14 @@ message RecurrentPaymentCreateRequest {
   string description = 3;
   bool save_payment_method = 4;
   string payment_method_id = 5;
+  string user_id = 7;
   map<string, string> metadata = 6;
 }
 
 message PaymentRefundRequest {
   string payment_id = 1;
   Amount amount = 2;
+  string user_id = 4;
   map<string, string> metadata = 3;
 }
 
@@ -37,6 +40,7 @@ message PaymentRefundResponse {
   string created_at = 4;
   Amount amount = 5;
   string details = 6;
+  string user_id = 8;
   map<string, string> metadata = 7;
 }
 
