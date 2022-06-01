@@ -74,6 +74,7 @@ message PaymentChange {
 }
 
 message PaymentEvent {
+  string event_id = 1;
   google.protobuf.Timestamp created_at = 10;
   message EventSource {
     oneof source {
