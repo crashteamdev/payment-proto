@@ -10,7 +10,7 @@ option java_package = "dev.crashteam.payment";
 
 message PaymentCreateRequest {
   Amount amount = 1;
-  Confirmation confirmation = 2;
+  string return_url = 2;
   string description = 3;
   string user_id = 5;
   map<string, string> metadata = 4;
@@ -18,7 +18,7 @@ message PaymentCreateRequest {
 
 message RecurrentPaymentCreateRequest {
   Amount amount = 1;
-  Confirmation confirmation = 2;
+  string return_url = 2;
   string description = 3;
   bool save_payment_method = 4;
   string payment_method_id = 5;
@@ -117,12 +117,6 @@ message UserPaymentsResponse {
 message Amount {
   int64 value = 1;
   string currency = 2;
-}
-
-message Confirmation {
-  string type = 1;
-  string return_url = 2;
-  string confirmation_url = 3;
 }
 
 message DateTimeFilter {
