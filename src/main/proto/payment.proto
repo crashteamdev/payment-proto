@@ -3,12 +3,14 @@ syntax = "proto3";
 package payment;
 
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
 
 option java_multiple_files = true;
 option java_outer_classname = "PaymentProto";
 option java_package = "dev.crashteam.payment";
 
 message PaymentCreateRequest {
+  string id = 6;
   Amount amount = 1;
   string return_url = 2;
   string description = 3;
@@ -17,6 +19,7 @@ message PaymentCreateRequest {
 }
 
 message RecurrentPaymentCreateRequest {
+  string id = 8;
   Amount amount = 1;
   string return_url = 2;
   string description = 3;
@@ -90,14 +93,22 @@ message PaymentEvent {
   EventPayload payload = 12;
 }
 
-message PaymentResponse {
-  string id = 1;
+message PaymentCreateResponse {
+  string payment_id = 1;
   PaymentStatus status = 2;
-  string paid = 3;
-  Amount amount = 4;
-  string created_at = 5;
-  string description = 6;
-  map<string, string> metadata = 7;
+  Amount amount = 3;
+  string created_at = 4;
+  string description = 5;
+  string confirmation_url = 6;
+}
+
+message PaymentRecurrentResponse {
+  string payment_id = 1;
+  PaymentStatus status = 2;
+  Amount amount = 3;
+  string created_at = 4;
+  string description = 5;
+  string confirmation_url = 6;
 }
 
 message UserPayment {
@@ -114,6 +125,10 @@ message UserPaymentsResponse {
   LimitOffsetPaginationResult pagination = 2;
 }
 
+message UserPaymentResponse {
+  UserPayment user_payment = 1;
+}
+
 message Amount {
   int64 value = 1;
   string currency = 2;
@@ -124,10 +139,15 @@ message DateTimeFilter {
   google.protobuf.Timestamp to = 2;
 }
 
-message UserQuery {
+message UserPaymentsQuery {
   string user_id = 1;
-  string date_filter = 2;
+  google.protobuf.StringValue date_filter = 2;
   LimitOffsetPagination pagination = 3;
+}
+
+message UserPaymentQuery {
+  string user_id = 1;
+  google.protobuf.StringValue payment_id = 2;
 }
 
 message LimitOffsetPagination {
@@ -148,9 +168,10 @@ enum PaymentStatus {
 }
 
 service PaymentService {
-  rpc createPayment(PaymentCreateRequest) returns (PaymentResponse);
-  rpc createRecurrentPayment(RecurrentPaymentCreateRequest) returns (PaymentResponse);
-  rpc getUserPayments(UserQuery) returns (UserPaymentsResponse);
+  rpc createPayment(PaymentCreateRequest) returns (PaymentCreateResponse);
+  rpc createRecurrentPayment(RecurrentPaymentCreateRequest) returns (PaymentRecurrentResponse);
+  rpc getUserPayments(UserPaymentsQuery) returns (UserPaymentsResponse);
+  rpc getUserPayment(UserPaymentQuery) returns (UserPaymentResponse);
   rpc refundPayment(PaymentRefundRequest) returns (PaymentRefundResponse);
 }
 
