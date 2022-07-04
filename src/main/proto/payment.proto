@@ -125,9 +125,14 @@ message Confirmation {
   string confirmation_url = 3;
 }
 
+message DateTimeFilter {
+  google.protobuf.Timestamp from = 1;
+  google.protobuf.Timestamp to = 2;
+}
+
 message UserQuery {
   string user_id = 1;
-  string date = 2;
+  string date_filter = 2;
   LimitOffsetPagination pagination = 3;
 }
 
