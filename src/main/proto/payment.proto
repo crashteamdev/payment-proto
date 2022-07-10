@@ -120,12 +120,12 @@ message UserPayment {
   google.protobuf.Timestamp updated_at = 6;
 }
 
-message UserPaymentsResponse {
+message PaymentsResponse {
   repeated UserPayment user_payment = 1;
   LimitOffsetPaginationResult pagination = 2;
 }
 
-message UserPaymentResponse {
+message PaymentResponse {
   UserPayment user_payment = 1;
 }
 
@@ -139,15 +139,14 @@ message DateTimeFilter {
   google.protobuf.Timestamp to = 2;
 }
 
-message UserPaymentsQuery {
+message PaymentsQuery {
   string user_id = 1;
   google.protobuf.StringValue date_filter = 2;
   LimitOffsetPagination pagination = 3;
 }
 
-message UserPaymentQuery {
-  string user_id = 1;
-  google.protobuf.StringValue payment_id = 2;
+message PaymentQuery {
+  string payment_id = 1;
 }
 
 message LimitOffsetPagination {
@@ -170,8 +169,8 @@ enum PaymentStatus {
 service PaymentService {
   rpc createPayment(PaymentCreateRequest) returns (PaymentCreateResponse);
   rpc createRecurrentPayment(RecurrentPaymentCreateRequest) returns (PaymentRecurrentResponse);
-  rpc getUserPayments(UserPaymentsQuery) returns (UserPaymentsResponse);
-  rpc getUserPayment(UserPaymentQuery) returns (UserPaymentResponse);
+  rpc getPayments(PaymentsQuery) returns (PaymentsResponse);
+  rpc getPayment(PaymentQuery) returns (PaymentResponse);
   rpc refundPayment(PaymentRefundRequest) returns (PaymentRefundResponse);
 }
 
