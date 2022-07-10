@@ -116,8 +116,8 @@ message UserPayment {
   string user_id = 2;
   PaymentStatus status = 3;
   Amount amount = 4;
-  string created_at = 5;
-  string updated_at = 6;
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp updated_at = 6;
 }
 
 message UserPaymentsResponse {
