@@ -97,7 +97,7 @@ message PaymentCreateResponse {
   string payment_id = 1;
   PaymentStatus status = 2;
   Amount amount = 3;
-  string created_at = 4;
+  google.protobuf.Timestamp created_at = 4;
   string description = 5;
   string confirmation_url = 6;
 }
@@ -106,7 +106,7 @@ message PaymentRecurrentResponse {
   string payment_id = 1;
   PaymentStatus status = 2;
   Amount amount = 3;
-  string created_at = 4;
+  google.protobuf.Timestamp created_at = 4;
   string description = 5;
   string confirmation_url = 6;
 }
