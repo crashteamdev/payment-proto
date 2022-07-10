@@ -131,7 +131,7 @@ message UserPaymentResponse {
 
 message Amount {
   int64 value = 1;
-  int32 currencyCode = 2; // ISO-4217 format
+  string currency = 2; // ISO-4217 format
 }
 
 message DateTimeFilter {
