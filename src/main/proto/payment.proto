@@ -141,7 +141,7 @@ message DateTimeFilter {
 
 message PaymentsQuery {
   string user_id = 1;
-  google.protobuf.StringValue date_filter = 2;
+  google.protobuf.Timestamp date_filter = 2;
   LimitOffsetPagination pagination = 3;
 }
 
