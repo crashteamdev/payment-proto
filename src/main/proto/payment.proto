@@ -9,17 +9,21 @@ option java_multiple_files = true;
 option java_outer_classname = "PaymentProto";
 option java_package = "dev.crashteam.payment";
 
+enum PaymentSystem {
+  YOOKASSA = 0;
+  FREEKASSA = 1;
+}
+
 message PaymentCreateRequest {
-  string id = 6;
   Amount amount = 1;
   string return_url = 2;
   string description = 3;
   string user_id = 5;
+  string payment_system = 6;
   map<string, string> metadata = 4;
 }
 
 message RecurrentPaymentCreateRequest {
-  string id = 8;
   Amount amount = 1;
   string return_url = 2;
   string description = 3;
@@ -100,6 +104,7 @@ message PaymentCreateResponse {
   google.protobuf.Timestamp created_at = 4;
   string description = 5;
   string confirmation_url = 6;
+  PaymentSystem payment_system = 7;
 }
 
 message PaymentRecurrentResponse {
@@ -118,6 +123,7 @@ message UserPayment {
   Amount amount = 4;
   google.protobuf.Timestamp created_at = 5;
   google.protobuf.Timestamp updated_at = 6;
+  PaymentSystem payment_system = 7;
 }
 
 message PaymentsResponse {
@@ -162,9 +168,11 @@ message LimitOffsetPaginationResult {
 }
 
 enum PaymentStatus {
-  PENDING = 0;
-  SUCCESS = 1;
-  CANCELED = 2;
+  UNKNOWN = 0;
+  PENDING = 1;
+  SUCCESS = 2;
+  CANCELED = 3;
+  FAILED = 4;
 }
 
 service PaymentService {
