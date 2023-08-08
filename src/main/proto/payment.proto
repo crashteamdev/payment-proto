@@ -10,8 +10,9 @@ option java_outer_classname = "PaymentProto";
 option java_package = "dev.crashteam.payment";
 
 enum PaymentSystem {
-  YOOKASSA = 0;
-  FREEKASSA = 1;
+  PAYMENT_SYSTEM_UNKNOWN = 0;
+  PAYMENT_SYSTEM_YOOKASSA = 1;
+  PAYMENT_SYSTEM_FREEKASSA = 2;
 }
 
 message PaymentCreateRequest {
@@ -19,7 +20,8 @@ message PaymentCreateRequest {
   string return_url = 2;
   string description = 3;
   string user_id = 5;
-  string payment_system = 6;
+  PaymentSystem payment_system = 6;
+  string shop_id = 7;
   map<string, string> metadata = 4;
 }
 
@@ -30,6 +32,8 @@ message RecurrentPaymentCreateRequest {
   bool save_payment_method = 4;
   string payment_method_id = 5;
   string user_id = 7;
+  string shop_id = 8;
+  PaymentSystem payment_system = 9;
   map<string, string> metadata = 6;
 }
 
