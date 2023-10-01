@@ -13,6 +13,7 @@ enum PaymentSystem {
   PAYMENT_SYSTEM_UNKNOWN = 0;
   PAYMENT_SYSTEM_YOOKASSA = 1;
   PAYMENT_SYSTEM_FREEKASSA = 2;
+  PAYMENT_SYSTEM_UZUM_BANK = 3;
 }
 
 message PaymentCreateRequest {
@@ -21,7 +22,7 @@ message PaymentCreateRequest {
   string description = 3;
   string user_id = 5;
   PaymentSystem payment_system = 6;
-  string shop_id = 7;
+  optional PromoCode promo_code = 7;
   map<string, string> metadata = 4;
 }
 
@@ -32,7 +33,6 @@ message RecurrentPaymentCreateRequest {
   bool save_payment_method = 4;
   string payment_method_id = 5;
   string user_id = 7;
-  string shop_id = 8;
   PaymentSystem payment_system = 9;
   map<string, string> metadata = 6;
 }
@@ -84,23 +84,6 @@ message PaymentChange {
   }
 }
 
-message PaymentEvent {
-  string event_id = 1;
-  google.protobuf.Timestamp created_at = 10;
-  message EventSource {
-    oneof source {
-      string payment_id = 1;
-    }
-  }
-  EventSource event_source = 11;
-  message EventPayload {
-    oneof payload {
-      PaymentChange payment_change = 1;
-    }
-  }
-  EventPayload payload = 12;
-}
-
 message PaymentCreateResponse {
   string payment_id = 1;
   PaymentStatus status = 2;
@@ -139,6 +122,10 @@ message PaymentResponse {
   UserPayment user_payment = 1;
 }
 
+message BalanceAmount {
+  int64 value = 1;
+}
+
 message Amount {
   int64 value = 1;
   string currency = 2; // ISO-4217 format
@@ -172,18 +159,140 @@ message LimitOffsetPaginationResult {
 }
 
 enum PaymentStatus {
-  UNKNOWN = 0;
-  PENDING = 1;
-  SUCCESS = 2;
-  CANCELED = 3;
-  FAILED = 4;
+  PAYMENT_STATUS_UNKNOWN = 0;
+  PAYMENT_STATUS_PENDING = 1;
+  PAYMENT_STATUS_SUCCESS = 2;
+  PAYMENT_STATUS_CANCELED = 3;
+  PAYMENT_STATUS_FAILED = 4;
+}
+
+message UzumAnalyticsContext {
+  UzumAnalyticsPlan plan = 1;
+  message UzumAnalyticsPlan {
+    oneof plan {
+      UzumAnalyticsDefaultPlan default_plan = 10;
+      UzumAnalyticsAdvancedPlan advanced_plan = 11;
+      UzumAnalyticsProPlan pro_plan = 12;
+    }
+    message UzumAnalyticsDefaultPlan {}
+    message UzumAnalyticsAdvancedPlan {}
+    message UzumAnalyticsProPlan {}
+  }
+}
+
+message KeAnalyticsContext {
+  KeAnalyticsPlan plan = 1;
+  message KeAnalyticsPlan {
+    oneof plan {
+      KeAnalyticsDefaultPlan default_plan = 10;
+      KeAnalyticsAdvancedPlan advanced_plan = 11;
+      KeAnalyticsProPlan pro_plan = 12;
+    }
+    message KeAnalyticsDefaultPlan {}
+    message KeAnalyticsAdvancedPlan {}
+    message KeAnalyticsProPlan {}
+  }
+}
+
+message UzumRepricerContext {
+  UzumRepricerPlan plan = 1;
+  message UzumRepricerPlan {
+    oneof plan {
+      UzumRepricerDefaultPlan default_plan = 10;
+    }
+    message UzumRepricerDefaultPlan {}
+  }
+}
+
+message PaidServiceContext {
+  // An indication of how many months are paid for
+  int64 multiply = 1;
+  oneof context {
+    UzumAnalyticsContext uzum_analytics_context = 10;
+    KeAnalyticsContext ke_analytics_context = 11;
+    UzumRepricerContext uzum_repricer_context = 12;
+  }
+}
+
+message DiscountPromoCodeDescriptor {
+  int32 discount_percentage = 1;
+}
+
+message PromoCode {
+  string code = 1;
+  PromoCodeDescriptor descriptor = 2;
+
+  message PromoCodeDescriptor {
+    oneof descriptor {
+      DiscountPromoCodeDescriptor discount_promocode_descriptor = 1;
+    }
+  }
+}
+
+message PaidService {
+    PaidServiceContext context = 1;
+}
+
+message PurchaseServiceRequest {
+  string operation_id = 1;
+  string user_id = 2;
+  PaidService paid_service = 3;
+}
+
+message PurchaseServiceResponse {
+  oneof response {
+      SuccessResponse success_response = 1;
+      ErrorResponse error_response = 2;
+  }
+
+  message SuccessResponse {
+    string operation_id = 1;
+  }
+
+  message ErrorResponse {
+    ErrorCode errorCode = 1;
+    optional string description = 2;
+
+    enum ErrorCode {
+      ERROR_CODE_UNKNOWN = 0;
+      ERROR_CODE_INSUFFICIENT_FUNDS = 1;
+    }
+  }
+}
+
+message GetBalanceRequest {
+  string user_id = 1;
+}
+
+message GetBalanceResponse {
+  string user_id = 1;
+  BalanceAmount amount = 2;
+}
+
+message PaymentEvent {
+  string event_id = 1;
+  google.protobuf.Timestamp created_at = 10;
+  message EventSource {
+    oneof source {
+      string payment_id = 1;
+    }
+  }
+  EventSource event_source = 11;
+  message EventPayload {
+    oneof payload {
+      PaymentChange payment_change = 1;
+    }
+  }
+  EventPayload payload = 12;
 }
 
 service PaymentService {
   rpc createPayment(PaymentCreateRequest) returns (PaymentCreateResponse);
-  rpc createRecurrentPayment(RecurrentPaymentCreateRequest) returns (PaymentRecurrentResponse);
+  //  rpc createRecurrentPayment(RecurrentPaymentCreateRequest) returns (PaymentRecurrentResponse);
   rpc getPayments(PaymentsQuery) returns (PaymentsResponse);
   rpc getPayment(PaymentQuery) returns (PaymentResponse);
-  rpc refundPayment(PaymentRefundRequest) returns (PaymentRefundResponse);
+  //  rpc refundPayment(PaymentRefundRequest) returns (PaymentRefundResponse);
+  rpc purchaseService(PurchaseServiceRequest) returns (PurchaseServiceResponse);
+  rpc getBalance(GetBalanceRequest) returns (GetBalanceResponse);
 }
 
