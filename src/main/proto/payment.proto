@@ -23,7 +23,7 @@ message PaymentCreateRequest {
   string user_id = 5;
   PaymentSystem payment_system = 6;
   optional PaidService paid_service = 8;
-  optional PromoCode promo_code = 7;
+  optional string promo_code = 7;
   map<string, string> metadata = 4;
 }
 
