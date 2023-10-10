@@ -291,11 +291,13 @@ message PurchaseServiceResponse {
 
   message SuccessResponse {
     string operation_id = 1;
+    BalanceAmount user_balance_amount = 2;
   }
 
   message ErrorResponse {
     ErrorCode errorCode = 1;
     optional string description = 2;
+    BalanceAmount user_balance_amount = 3;
 
     enum ErrorCode {
       ERROR_CODE_UNKNOWN = 0;
