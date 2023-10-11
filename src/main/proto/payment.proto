@@ -17,14 +17,26 @@ enum PaymentSystem {
 }
 
 message PaymentCreateRequest {
-  Amount amount = 1;
-  string return_url = 2;
-  string description = 3;
-  string user_id = 5;
-  PaymentSystem payment_system = 6;
-  optional PaidService paid_service = 8;
-  optional string promo_code = 7;
-  map<string, string> metadata = 4;
+  oneof payment {
+    PaymentDepositUserBalance payment_deposit_user_balance = 1;
+    PaymentPurchaseService payment_purchase_service = 2;
+  }
+  message PaymentDepositUserBalance {
+    Amount amount = 1;
+    string user_id = 2;
+    string description = 3;
+    PaymentSystem payment_system = 4;
+    string return_url = 5;
+  }
+  message PaymentPurchaseService {
+    string user_id = 1;
+    string description = 2;
+    PaymentSystem payment_system = 3;
+    PaidService paid_service = 4;
+    string return_url = 5;
+    optional string promo_code = 7;
+  }
+  map<string, string> metadata = 3;
 }
 
 message RecurrentPaymentCreateRequest {
@@ -64,6 +76,7 @@ message PaymentCreated {
   Amount amount = 4;
   google.protobuf.Timestamp created_at = 5;
   PaymentStatus status = 6;
+  optional UserPaidService user_paid_service = 7;
 }
 
 message PaymentStatusChange {
@@ -271,6 +284,11 @@ message CheckPromoCodeResponse {
       ERROR_CODE_NOT_FOUND = 3;
     }
   }
+}
+
+message UserPaidService {
+  string user_id = 1;
+  PaidService paid_service = 2;
 }
 
 message PaidService {
