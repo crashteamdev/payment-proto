@@ -16,6 +16,11 @@ enum PaymentSystem {
   PAYMENT_SYSTEM_UZUM_BANK = 3;
 }
 
+enum PaymentCurrency {
+  PAYMENT_CURRENCY_UNKNOWN = 0;
+  PAYMENT_CURRENCY_USD = 1;
+}
+
 message PaymentCreateRequest {
   oneof payment {
     PaymentDepositUserBalance payment_deposit_user_balance = 1;
@@ -23,10 +28,11 @@ message PaymentCreateRequest {
   }
   message PaymentDepositUserBalance {
     int64 amount = 1;
-    string user_id = 2;
-    string description = 3;
-    PaymentSystem payment_system = 4;
-    string return_url = 5;
+    PaymentCurrency currency = 2;
+    string user_id = 3;
+    string description = 4;
+    PaymentSystem payment_system = 5;
+    string return_url = 6;
   }
   message PaymentPurchaseService {
     string user_id = 1;
@@ -41,6 +47,7 @@ message PaymentCreateRequest {
 
 message RecurrentPaymentCreateRequest {
   int64 amount = 1;
+  PaymentCurrency currency = 10;
   string return_url = 2;
   string description = 3;
   bool save_payment_method = 4;
