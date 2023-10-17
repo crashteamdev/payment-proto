@@ -22,7 +22,7 @@ message PaymentCreateRequest {
     PaymentPurchaseService payment_purchase_service = 2;
   }
   message PaymentDepositUserBalance {
-    Amount amount = 1;
+    int64 amount = 1;
     string user_id = 2;
     string description = 3;
     PaymentSystem payment_system = 4;
@@ -40,7 +40,7 @@ message PaymentCreateRequest {
 }
 
 message RecurrentPaymentCreateRequest {
-  Amount amount = 1;
+  int64 amount = 1;
   string return_url = 2;
   string description = 3;
   bool save_payment_method = 4;
@@ -53,7 +53,7 @@ message RecurrentPaymentCreateRequest {
 
 message PaymentRefundRequest {
   string payment_id = 1;
-  Amount amount = 2;
+  int64 amount = 2;
   string user_id = 4;
   map<string, string> metadata = 3;
 }
