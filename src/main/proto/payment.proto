@@ -340,6 +340,15 @@ message GetBalanceResponse {
   BalanceAmount amount = 2;
 }
 
+message GetExchangeRateRequest {
+  string currency = 1;
+}
+
+message GetExchangeRateResponse {
+  string pair = 1;
+  string exchangeRate = 2;
+}
+
 message PaymentEvent {
   string event_id = 1;
   google.protobuf.Timestamp created_at = 10;
@@ -367,5 +376,6 @@ service PaymentService {
   rpc checkPromoCode(CheckPromoCodeRequest) returns (CheckPromoCodeResponse);
   rpc purchaseService(PurchaseServiceRequest) returns (PurchaseServiceResponse);
   rpc getBalance(GetBalanceRequest) returns (GetBalanceResponse);
+  rpc getExchangeRate(GetExchangeRateRequest) returns (GetExchangeRateResponse);
 }
 
