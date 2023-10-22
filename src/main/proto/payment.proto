@@ -226,6 +226,16 @@ message UzumRepricerContext {
   }
 }
 
+message KeRepricerContext {
+  KeRepricerPlan plan = 1;
+  message KeRepricerPlan {
+    oneof plan {
+      KeRepricerDefaultPlan default_plan = 10;
+    }
+    message KeRepricerDefaultPlan {}
+  }
+}
+
 message PaidServiceContext {
   // An indication of how many months are paid for
   int64 multiply = 1;
@@ -233,6 +243,7 @@ message PaidServiceContext {
     UzumAnalyticsContext uzum_analytics_context = 10;
     KeAnalyticsContext ke_analytics_context = 11;
     UzumRepricerContext uzum_repricer_context = 12;
+    KeRepricerContext ke_repricer_context = 13;
   }
 }
 
