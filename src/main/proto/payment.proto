@@ -300,6 +300,7 @@ message CheckPromoCodeResponse {
       ERROR_CODE_EXPIRED_PROMO_CODE = 1;
       ERROR_CODE_MAX_USAGE_LIMIT = 2;
       ERROR_CODE_NOT_FOUND = 3;
+      ERROR_CODE_ALREADY_USED = 4;
     }
   }
 }
