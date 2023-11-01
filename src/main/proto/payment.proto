@@ -35,6 +35,7 @@ message PaymentCreateRequest {
     PaymentSystem payment_system = 5;
     string return_url = 6;
     optional string user_email = 7;
+    optional string user_phone = 8;
   }
   message PaymentPurchaseService {
     string user_id = 1;
@@ -44,6 +45,7 @@ message PaymentCreateRequest {
     string return_url = 5;
     optional string promo_code = 7;
     optional string user_email = 8;
+    optional string user_phone = 9;
   }
   map<string, string> metadata = 3;
 }
