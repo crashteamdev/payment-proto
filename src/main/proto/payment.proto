@@ -16,6 +16,7 @@ enum PaymentSystem {
   PAYMENT_SYSTEM_UZUM_BANK = 3;
   PAYMENT_SYSTEM_CLICK = 4;
   PAYMENT_SYSTEM_LAVA = 5;
+  PAYMENT_SYSTEM_ENOT = 6;
 }
 
 enum PaymentCurrency {
