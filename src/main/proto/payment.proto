@@ -42,7 +42,8 @@ message PaymentCreateRequest {
     string user_id = 1;
     string description = 2;
     PaymentSystem payment_system = 3;
-    PaidService paid_service = 4;
+    PaidService paid_service = 4 [deprecated = true];
+    repeated PaidService paid_services = 10;
     string return_url = 5;
     optional string promo_code = 7;
     optional string user_email = 8;
@@ -314,6 +315,7 @@ message CheckPromoCodeResponse {
 message UserPaidService {
   string user_id = 1;
   PaidService paid_service = 2;
+  repeated PaidService paid_services = 3;
 }
 
 message PaidService {
@@ -323,7 +325,8 @@ message PaidService {
 message PurchaseServiceRequest {
   string operation_id = 1;
   string user_id = 2;
-  PaidService paid_service = 3;
+  PaidService paid_service = 3 [deprecated = true];
+  repeated PaidService paid_services = 4;
 }
 
 message PurchaseServiceResponse {
