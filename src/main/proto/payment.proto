@@ -49,6 +49,7 @@ message PaymentCreateRequest {
     optional string promo_code = 7;
     optional string user_email = 8;
     optional string user_phone = 9;
+    int64 multiply = 11;
   }
   map<string, string> metadata = 3;
 }
