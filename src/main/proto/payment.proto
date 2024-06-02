@@ -329,6 +329,7 @@ message PurchaseServiceRequest {
   string user_id = 2;
   PaidService paid_service = 3 [deprecated = true];
   repeated PaidService paid_services = 4;
+  int64 multiply = 5;
 }
 
 message PurchaseServiceResponse {
