@@ -298,6 +298,7 @@ message CheckPromoCodeResponse {
 
   message SuccessResponse {
     string promo_code = 1;
+    int32 discount_percentage = 2;
   }
 
   message ErrorResponse {
