@@ -38,6 +38,7 @@ message PaymentCreateRequest {
     string return_url = 6;
     optional string user_email = 7;
     optional string user_phone = 8;
+    optional bool save_payment_method = 9;
   }
   message PaymentPurchaseService {
     string user_id = 1;
