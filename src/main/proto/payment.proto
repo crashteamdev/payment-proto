@@ -56,6 +56,14 @@ message PaymentCreateRequest {
   map<string, string> metadata = 3;
 }
 
+message RecurrentPaymentCancelRequest {
+  string user_id = 1;
+}
+
+message RecurrentPaymentCancelResponse {
+  string user_id = 1;
+}
+
 message RecurrentPaymentCreateRequest {
   int64 amount = 1;
   PaymentCurrency currency = 10;
