@@ -412,5 +412,6 @@ service PaymentService {
   rpc purchaseService(PurchaseServiceRequest) returns (PurchaseServiceResponse);
   rpc getBalance(GetBalanceRequest) returns (GetBalanceResponse);
   rpc getExchangeRate(GetExchangeRateRequest) returns (GetExchangeRateResponse);
+  rpc recurrentPaymentCancel(RecurrentPaymentCancelRequest) returns (RecurrentPaymentCancelResponse);
 }
 
