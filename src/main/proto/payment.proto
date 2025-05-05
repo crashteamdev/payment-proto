@@ -28,6 +28,7 @@ message PaymentCreateRequest {
   oneof payment {
     PaymentDepositUserBalance payment_deposit_user_balance = 1;
     PaymentPurchaseService payment_purchase_service = 2;
+    GenericPaymentPurchaseService generic_payment_purchase_service = 4;
   }
   message PaymentDepositUserBalance {
     int64 amount = 1;
@@ -51,7 +52,13 @@ message PaymentCreateRequest {
     optional string user_phone = 9;
     int64 multiply = 11;
     optional bool save_payment_method = 12;
-
+  }
+  message GenericPaymentPurchaseService {
+    string user_id = 1;
+    int64 amount = 2;
+    string description = 3;
+    PaymentSystem payment_system = 4;
+    string return_url = 5;
   }
   map<string, string> metadata = 3;
 }
@@ -255,6 +262,19 @@ message KeRepricerContext {
   }
 }
 
+message AiHubContext {
+  AiHubPlan plan = 1;
+  message AiHubPlan {
+    oneof plan {
+      AiHubBasicPlan basic_plan = 10;
+    }
+    message AiHubBasicPlan {}
+    message AiHubPro {}
+    message AiCreator {}
+    message AiBusiness {}
+  }
+}
+
 message PaidServiceContext {
   // An indication of how many months are paid for
   int64 multiply = 1 [deprecated = true];
@@ -263,6 +283,7 @@ message PaidServiceContext {
     KeAnalyticsContext ke_analytics_context = 11;
     UzumRepricerContext uzum_repricer_context = 12;
     KeRepricerContext ke_repricer_context = 13;
+    AiHubContext ai_hub_context = 14;
   }
 }
 
@@ -327,7 +348,7 @@ message CheckPromoCodeResponse {
 
 message UserPaidService {
   string user_id = 1;
-  PaidService paid_service = 2;
+  PaidService paid_service = 2 [deprecated = true];
   repeated PaidService paid_services = 3;
 }
 
