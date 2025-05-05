@@ -17,6 +17,7 @@ enum PaymentSystem {
   PAYMENT_SYSTEM_CLICK = 4;
   PAYMENT_SYSTEM_LAVA = 5;
   PAYMENT_SYSTEM_ENOT = 6;
+  PAYMENT_SYSTEM_TBANK = 7;
 }
 
 enum PaymentCurrency {
@@ -59,6 +60,7 @@ message PaymentCreateRequest {
     string description = 3;
     PaymentSystem payment_system = 4;
     string return_url = 5;
+    optional string generic_service_id = 6;
   }
   map<string, string> metadata = 3;
 }
@@ -140,6 +142,7 @@ message PaymentCreateResponse {
   string description = 5;
   string confirmation_url = 6;
   PaymentSystem payment_system = 7;
+  optional string generic_service_id = 8;
 }
 
 message PaymentRecurrentResponse {
@@ -159,6 +162,7 @@ message UserPayment {
   google.protobuf.Timestamp created_at = 5;
   google.protobuf.Timestamp updated_at = 6;
   PaymentSystem payment_system = 7;
+  optional string generic_service_id = 8;
 }
 
 message PaymentsResponse {
