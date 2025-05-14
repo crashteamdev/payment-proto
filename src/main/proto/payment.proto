@@ -17,6 +17,7 @@ enum PaymentSystem {
   PAYMENT_SYSTEM_CLICK = 4;
   PAYMENT_SYSTEM_LAVA = 5;
   PAYMENT_SYSTEM_ENOT = 6;
+  PAYMENT_SYSTEM_TBANK = 7;
 }
 
 enum PaymentCurrency {
@@ -28,6 +29,7 @@ message PaymentCreateRequest {
   oneof payment {
     PaymentDepositUserBalance payment_deposit_user_balance = 1;
     PaymentPurchaseService payment_purchase_service = 2;
+    GenericPaymentPurchaseService generic_payment_purchase_service = 4;
   }
   message PaymentDepositUserBalance {
     int64 amount = 1;
@@ -51,7 +53,14 @@ message PaymentCreateRequest {
     optional string user_phone = 9;
     int64 multiply = 11;
     optional bool save_payment_method = 12;
-
+  }
+  message GenericPaymentPurchaseService {
+    string user_id = 1;
+    int64 amount = 2;
+    string description = 3;
+    PaymentSystem payment_system = 4;
+    string return_url = 5;
+    optional string generic_service_id = 6;
   }
   map<string, string> metadata = 3;
 }
@@ -103,6 +112,7 @@ message PaymentCreated {
   google.protobuf.Timestamp created_at = 5;
   PaymentStatus status = 6;
   optional UserPaidService user_paid_service = 7;
+  optional string generic_service_id = 8;
 }
 
 message PaymentStatusChange {
@@ -133,6 +143,7 @@ message PaymentCreateResponse {
   string description = 5;
   string confirmation_url = 6;
   PaymentSystem payment_system = 7;
+  optional string generic_service_id = 8;
 }
 
 message PaymentRecurrentResponse {
@@ -152,6 +163,7 @@ message UserPayment {
   google.protobuf.Timestamp created_at = 5;
   google.protobuf.Timestamp updated_at = 6;
   PaymentSystem payment_system = 7;
+  optional string generic_service_id = 8;
 }
 
 message PaymentsResponse {
@@ -255,6 +267,19 @@ message KeRepricerContext {
   }
 }
 
+message AiHubContext {
+  AiHubPlan plan = 1;
+  message AiHubPlan {
+    oneof plan {
+      AiHubBasicPlan basic_plan = 10;
+    }
+    message AiHubBasicPlan {}
+    message AiHubPro {}
+    message AiCreator {}
+    message AiBusiness {}
+  }
+}
+
 message PaidServiceContext {
   // An indication of how many months are paid for
   int64 multiply = 1 [deprecated = true];
@@ -263,6 +288,7 @@ message PaidServiceContext {
     KeAnalyticsContext ke_analytics_context = 11;
     UzumRepricerContext uzum_repricer_context = 12;
     KeRepricerContext ke_repricer_context = 13;
+    AiHubContext ai_hub_context = 14;
   }
 }
 
@@ -327,7 +353,7 @@ message CheckPromoCodeResponse {
 
 message UserPaidService {
   string user_id = 1;
-  PaidService paid_service = 2;
+  PaidService paid_service = 2 [deprecated = true];
   repeated PaidService paid_services = 3;
 }
 
