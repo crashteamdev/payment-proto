@@ -272,6 +272,9 @@ message AiHubContext {
   message AiHubPlan {
     oneof plan {
       AiHubBasicPlan basic_plan = 10;
+      AiHubPro pro_plan = 11;
+      AiCreator creator_plan = 12;
+      AiBusiness business_plan = 13;
     }
     message AiHubBasicPlan {}
     message AiHubPro {}
