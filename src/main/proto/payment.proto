@@ -113,6 +113,7 @@ message PaymentCreated {
   PaymentStatus status = 6;
   optional UserPaidService user_paid_service = 7;
   optional string generic_service_id = 8;
+  optional string confirmation_url = 9;
 }
 
 message PaymentStatusChange {
