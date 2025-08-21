@@ -10,6 +10,9 @@
         <version>2.1.1</version>
     </parent>
 
+    <name>payment-proto</name>
+    <description>gRPC proto stubs for CrashTeamDev payment API</description>
+    <url>https://github.com/crashteamdev/payment-proto</url>
     <artifactId>payment-proto</artifactId>
     <version>0.0.50</version>
 
