@@ -16,7 +16,7 @@
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <grpc.version>1.56.1</grpc.version>
+        <grpc.version>1.75.0</grpc.version>
     </properties>
     <dependencies>
         <dependency>
