@@ -14,7 +14,7 @@
     <description>gRPC proto stubs for CrashTeamDev payment API</description>
     <url>https://github.com/crashteamdev/payment-proto</url>
     <artifactId>payment-proto</artifactId>
-    <version>0.0.51</version>
+    <version>0.0.52</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
